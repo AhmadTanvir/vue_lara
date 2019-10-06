@@ -185,7 +185,9 @@ export default {
                     });
                     this.$Progress.finish();
                 })
-                .catch(() => {})
+                .catch(() => {
+                    this.$Progress.fail();
+                })
         }
     },
     created() {

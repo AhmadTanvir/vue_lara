@@ -16,8 +16,8 @@
                         <h3 class="widget-user-usernam activee text-left">Elizabeth Pierce</h3>
                         <h5 class="widget-user-desc text-left">Web Designer</h5>
                     </div>
-                    <div class="widget-user-imag activee">
-                        <img class="img-circle" src="" active alt="User Avatar">
+                    <div class="widget-user-image">
+                        <img class="img-circle" :src="getProfilePhoto()" active alt="User Avatar">
                     </div>
                     <div class="card-footer">
                         <div class="row">
@@ -71,25 +71,22 @@
                                     <div class="form-group row">
                                         <label for="inputName" class="col-sm-2 col-form-label ml-3">Name</label>
                                         <div class="col-sm-12">
-                                            <input type="text" v-model="form.name" class="form-control" id="inputName" placeholder="Name">
+                                            <input type="text" v-model="form.name" class="form-control" id="inputName" placeholder="Name" :class="{ 'is-invalid': form.errors.has('name') }">
+                                            <has-error :form="form" field="name"></has-error>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="inputEmail" class="col-sm-2 col-form-label ml-3">Email</label>
                                         <div class="col-sm-12">
-                                            <input type="email" v-model="form.email" class="form-control" id="inputEmail" placeholder="Email">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="inputName2" class="col-sm-2 col-form-label ml-3">Name</label>
-                                        <div class="col-sm-12">
-                                            <input type="text" class="form-control" id="inputName2" placeholder="Name">
+                                            <input type="email" v-model="form.email" class="form-control" id="inputEmail" placeholder="Email" :class="{ 'is-invalid': form.errors.has('email') }">
+                                            <has-error :form="form" field="email"></has-error>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="inputExperience" class="col-sm-2 col-form-label ml-3">Experience</label>
                                         <div class="col-sm-12">
-                                            <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
+                                            <textarea class="form-control" v-model="form.bio" id="inputExperience" placeholder="Experience" :class="{ 'is-invalid': form.errors.has('bio') }"></textarea>
+                                            <has-error :form="form" field="bio"></has-error>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -99,9 +96,10 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="inputPassport" class="col-sm-5 col-form-label ml-3">Passport (leave empty if not chenging)</label>
+                                        <label for="inputPassword" class="col-sm-5 col-form-label ml-3">Change Password (leave empty if not chenging)</label>
                                         <div class="col-sm-12">
-                                            <input type="text" class="form-control" id="inputPassport" placeholder="Passport">
+                                            <input type="password" v-model="form.password" class="form-control" id="inputPassword" placeholder="Change Password" :class="{ 'is-invalid': form.errors.has('password') }">
+                                            <has-error :form="form" field="password"></has-error>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -140,24 +138,42 @@ export default {
         console.log('Component mounted.')
     },
     methods: {
+        getProfilePhoto() {
+            return "images/profile/" + this.photo;
+        },
         updateInfo() {
+            this.$Progress.start();
+            if (this.form.password == "") {
+                this.form.password = undefined;
+            }
             this.form.put('api/profile')
                 .then(() => {
-
+                    this.$Progress.finish();
                 })
-                .catch(() => {});
+                .catch(() => {
+                    this.$Progress.fail();
+                });
         },
         updateProfile(e) {
             // console.log('Updating');
             let file = e.target.files[0];
-            // console.log(file); detect file size
+            console.log(file); //detect file size
             let reader = new FileReader();
-            reader.onloadend = (file) => {
-                // console.log('RESULT', reader.result) result on console
-                //assignign photo
-                this.form.photo = reader.result;
+
+            if (file['size'] < 2111775) {
+                reader.onloadend = (file) => {
+                    // console.log('RESULT', reader.result) result on console
+                    //assignign photo
+                    this.form.photo = reader.result;
+                }
+                reader.readAsDataURL(file);
+            } else {
+                Swal.fire({
+                    type: 'error',
+                    title: 'Oops...',
+                    text: 'You are uploading a large file !!'
+                })
             }
-            reader.readAsDataURL(file);
         }
     },
     created() {
