@@ -51,6 +51,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </div>
                         <div class="info">
                             <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+                            <p style="color: white">{{ Auth::user()->type }}</p>
                         </div>
                     </div>
                     <!-- Sidebar Menu -->
@@ -67,9 +68,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </p>
                                 </router-link>
                             </li>
+                            @can('isAdmin')
                             <li class="nav-item has-treeview">
                                 <a href="#" class="nav-link ">
-                                    <i class="nav-icon fas fa-cogs green"></i>
+                                    <i class="nav-icon fas fa-cog green"></i>
                                     <p>
                                         Management
                                         <i class="right fas fa-angle-left"></i>
@@ -89,6 +91,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </a>
                                     </li>
                                 </ul>
+                                <li class="nav-item">
+                                    <router-link to="/developer" class="nav-link">
+                                    <i class="nav-icon fas fa-cogs"></i>
+                                    <p>
+                                        Developer
+                                    </p>
+                                    </router-link>
+                                </li>
+                            @endcan
                                 <li class="nav-item">
                                     <router-link to="/profile" class="nav-link">
                                     <i class="nav-icon fas fa-user orange"></i>
@@ -137,6 +148,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
                 </footer>
             </div>
+            @auth
+                <script type="text/javascript">
+                    window.user = @json(auth()->user())
+                </script>
+            @endauth
             <!-- ./wrapper -->
             <script type="text/javascript" src="/js/app.js"></script>
         </body>

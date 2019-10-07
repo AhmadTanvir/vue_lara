@@ -139,7 +139,9 @@ export default {
     },
     methods: {
         getProfilePhoto() {
-            return "images/profile/" + this.photo;
+            let photo = (this.form.photo.length > 200) ? this.form.photo : "images/profile/" + this.form.photo;
+            return photo;
+            // return "images/profile/" + this.form.photo;
         },
         updateInfo() {
             this.$Progress.start();
@@ -148,7 +150,9 @@ export default {
             }
             this.form.put('api/profile')
                 .then(() => {
+                    Fire.$emit('AfterCreated');
                     this.$Progress.finish();
+
                 })
                 .catch(() => {
                     this.$Progress.fail();
@@ -157,7 +161,7 @@ export default {
         updateProfile(e) {
             // console.log('Updating');
             let file = e.target.files[0];
-            console.log(file); //detect file size
+            //console.log(file); //detect file size
             let reader = new FileReader();
 
             if (file['size'] < 2111775) {

@@ -26,6 +26,7 @@ class UserController extends Controller
      */
     public function index()
     {
+        // $this->authorize('isAdmin');
         return User::latest()->paginate(10);
     }
 
@@ -60,6 +61,7 @@ class UserController extends Controller
      */
     public function updateProfile(Request $request)
     {
+       // $this->authorize('isAdmin');
        $user = auth('api')->user();
 
        $this->validate($request, [
@@ -132,6 +134,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('isAdmin');
         $user = User::findOrFail($id);
         //Delete the user
         $user->delete();
