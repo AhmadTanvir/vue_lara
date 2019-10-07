@@ -8,7 +8,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>AdminLTE 3 | Starter</title>
+        <title>{{ config('app.name', 'Multi App For Backend') }}</title>
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="stylesheet" type="text/css" href="/css/app.css">
     </head>
@@ -23,16 +23,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </li>
                 </ul>
                 <!-- SEARCH FORM -->
-                <form class="form-inline ml-3">
+                {{-- <form class="form-inline ml-3"> --}}
                     <div class="input-group input-group-sm">
-                        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                        <input class="form-control form-control-navbar" @keyup="searchit" v-model="search" type="search" placeholder="Search" aria-label="Search">{{-- .enter for search --}}
                         <div class="input-group-append">
-                            <button class="btn btn-navbar" type="submit">
+                            <button class="btn btn-navbar" @click="searchit">
                             <i class="fas fa-search"></i>
                             </button>
                         </div>
                     </div>
-                </form>
+                {{-- </form> --}}
             </nav>
             <!-- /.navbar -->
             <!-- Main Sidebar Container -->
@@ -85,9 +85,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </router-link>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">
-                                            <i class="fas fa-circle nav-icon"></i>
-                                            <p>Inactive Page</p>
+                                        <a href="{{ route('invoice') }}" class="nav-link">
+                                            <i class="fas fa-file-invoice nav-icon blue"></i>
+                                            <p>Invoice</p>
                                         </a>
                                     </li>
                                 </ul>
@@ -96,6 +96,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <i class="nav-icon fas fa-cogs"></i>
                                     <p>
                                         Developer
+                                    </p>
+                                    </router-link>
+                                </li>
+                                <li class="nav-item">
+                                    <router-link to="/pageNotFound" class="nav-link">
+                                    <i class="nav-icon fas fa-cogs"></i>
+                                    <p>
+                                       404 Page 
                                     </p>
                                     </router-link>
                                 </li>
@@ -148,6 +156,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <strong>Copyright &copy; 2014-2019 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
                 </footer>
             </div>
+            <!-- Modal -->
+              <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+                
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                      <p>Some text in the modal.</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
             @auth
                 <script type="text/javascript">
                     window.user = @json(auth()->user())
@@ -155,5 +182,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
             @endauth
             <!-- ./wrapper -->
             <script type="text/javascript" src="/js/app.js"></script>
+            <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.0/jquery.cookie.min.js">
+            </script>
+            <script type="text/javascript">
+                 $(document).ready(function() {
+                  var yetVisited =sessionStorage['visited'];
+                    if (!yetVisited) {
+                        $("#myModal").modal("show").on("shown", function () {
+                        window.setTimeout(function () {
+                            $("#Modal").modal("hide");
+                        }, 2000);
+                    });
+
+                    // open popup
+                        sessionStorage['visited'] ="yes";
+                  }
+                });
+            </script>
         </body>
     </html>

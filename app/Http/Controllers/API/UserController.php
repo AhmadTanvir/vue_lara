@@ -27,7 +27,9 @@ class UserController extends Controller
     public function index()
     {
         // $this->authorize('isAdmin');
-        return User::latest()->paginate(10);
+        if(\Gate::allows('isAdmin') || \Gate::allows('isAuthor')){
+          return User::latest()->paginate(5);
+        }
     }
 
     /**
@@ -139,5 +141,16 @@ class UserController extends Controller
         //Delete the user
         $user->delete();
         return ['message' => 'User Deleted Successfully!!'];
+    }
+    public function search()
+    {
+        if ($search = \Request::get('q')) {
+            $users = User::where(function ($query) use ($search){
+                $query->where('name', 'LIKE', "%$search%")->orWhere('email', 'LIKE', "%$search%")->orWhere('type', 'LIKE', "%$search%");
+            })->paginate(20);
+        }else {
+          $users = User::latest()->paginate(5);
+        }
+        return $users;
     }
 }

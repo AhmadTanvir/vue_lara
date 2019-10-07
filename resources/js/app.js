@@ -5,6 +5,7 @@
  */
 
 require('./bootstrap');
+require('./notfound');
 
 // import Vue from 'vue'
 window.Vue = require('vue');
@@ -29,8 +30,10 @@ window.toast = toast;
 window.Form = Form;
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
-import VueRouter from 'vue-router'
 
+Vue.component('pagination', require('laravel-vue-pagination'));
+
+import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 import Vueprogressbar from 'vue-progressbar';
@@ -44,7 +47,8 @@ let routes = [
     { path: '/dashboard', component: require('./components/Dashboard.vue').default },
     { path: '/users', component: require('./components/Users.vue').default },
     { path: '/profile', component: require('./components/Profile.vue').default },
-    { path: '/developer', component: require('./components/Developer.vue').default }
+    { path: '/developer', component: require('./components/Developer.vue').default },
+    { path: '*', component: require('./components/NotFound.vue').default }
 ]
 
 const router = new VueRouter({
@@ -103,5 +107,17 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 const app = new Vue({
     el: '#app',
-    router
+    router,
+    data: {
+        search: ''
+    },
+    methods: {
+        searchit: _.debounce(() => {
+            Fire.$emit('searching');
+        }, 1000),
+        // console.log("searching..."); now anounce to all components
+        printme() {
+            window.print();
+        }
+    }
 }); /*.$mount('#app')*/

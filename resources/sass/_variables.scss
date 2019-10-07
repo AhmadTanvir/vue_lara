@@ -18,8 +18,19 @@ $yellow: #ffed4a;
 $green: #38c172;
 $teal: #4dc0b5;
 $cyan: #6cb2eb;
+$color1: #05FBF2;
+$l-purple: #332F63;
+$t-purple: #8C8AA7;
+$pink: #FF5E65;
+
+.l-purple {
+    l-purple: $l-purple;
+}
 
 
+.color1 {
+    color: $color1;
+}
 
 .blue {
     color: $blue;

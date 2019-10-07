@@ -3,6 +3,7 @@
 
 // Variables
 @import 'variables';
+@import 'notfound';
 $fa-font-path: "../webfonts";
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
@@ -14,4 +15,27 @@ $fa-font-path: "../webfonts";
 .router-link-exact-active {
     background-color: #3f51b5 !important;
     color: #fff !important;
+}
+
+@media print {
+    .nav.nav-tabs li:not(.active) {
+        display: none;
+    }
+
+    .invoice {
+        padding: 10px 20px;
+    }
+
+    .invoice {
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+
+    .table-responsive table {
+        background-color: transparent !important;
+    }
+}
+
+@page {
+    margin: 0;
 }
