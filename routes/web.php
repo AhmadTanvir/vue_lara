@@ -22,4 +22,6 @@ Route::get('invoice', function() {
     return view('invoice');
 })->name('invoice');
 
+Route::get('post', 'PostController@all_post')->name('post');
+
 Route::get('{path}', "HomeController@index")->where('path', '([A-z\d-\/_.]+)?');
