@@ -23,6 +23,9 @@ Route::get('invoice', function() {
 })->name('invoice');
 
 // Route::get('post', 'PostController@all_post')->name('post');
-
-Route::get('{path}', "HomeController@index")->where('path', '([A-z\d-\/_.]+)?');
 // Route::get('{path}', "HomeController@index")->where('path', '.*');
+
+// Route::get('{path}', "HomeController@index")->where('path', '([A-z\d-\/_.]+)?');
+
+Route::post('/add-category', 'CategoryController@add_category');
+Route::get('category', 'CategoryController@all_category');
