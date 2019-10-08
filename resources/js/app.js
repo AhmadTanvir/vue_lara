@@ -43,15 +43,9 @@ Vue.use(Vueprogressbar, {
     height: '3px'
 });
 
-let routes = [
-    { path: '/dashboard', component: require('./components/Dashboard.vue').default },
-    { path: '/users', component: require('./components/Users.vue').default },
-    { path: '/profile', component: require('./components/Profile.vue').default },
-    { path: '/developer', component: require('./components/Developer.vue').default },
-    { path: '*', component: require('./components/NotFound.vue').default }
-]
+import { routes } from './routes'; //if not give .js it'll work beacuse we'r using ES6
 
-const router = new VueRouter({
+const router = new VueRouter({ //must have to diclare this instans under routes path
     mode: 'history',
     routes // short for `routes: routes`
 })
@@ -90,7 +84,7 @@ Vue.component(
 );
 Vue.component(
     'not-found',
-    require('./components/NotFound.vue').default
+    require('./components/admin/NotFound.vue').default
 );
 
 
