@@ -34,9 +34,9 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>Category Name</td>
+                                                <tr v-for="(category,index) in getallCategory" :key="category.id">
+                                                    <td>{{ index+1 }}</td>
+                                                    <td>{{ category.catname }}</td>
                                                     <td>10 Nov 2019</td>
                                                     <td>
                                                         <a href="#" @click="" title="Edit" style="margin-right: 10px"><i class="fas fa-edit blue"></i></a><!-- editModal(user) --> |
@@ -60,7 +60,18 @@
 </template>
 <script>
 export default {
-    name: "List"
+    name: "List",
+    mounted() {
+        this.$store.dispatch("allCategory")
+    },
+    computed: {
+        getallCategory() {
+            return this.$store.getters.getCategory
+        }
+    },
+    methods: {
+
+    }
 }
 
 </script>
