@@ -26,8 +26,9 @@ const toast = Swal.mixin({
     timer: 3000
 });
 window.toast = toast;
-
+//Globally Use Form
 window.Form = Form;
+
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 
