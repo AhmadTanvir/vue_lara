@@ -9,6 +9,15 @@ require('./notfound');
 
 // import Vue from 'vue'
 window.Vue = require('vue');
+
+//support vuex
+import Vuex from 'vuex'
+Vue.use(Vuex)
+import storeData from "./store/index"
+const store = new Vuex.Store(
+    storeData
+)
+
 import Form from 'vform';
 import moment from 'moment';
 import { HasError, AlertError } from 'vform';
@@ -47,7 +56,7 @@ Vue.use(Vueprogressbar, {
 import { routes } from './routes'; //if not give .js it'll work beacuse we'r using ES6
 
 const router = new VueRouter({ //must have to diclare this instans under routes path
-    mode: 'history',
+    mode: 'hash', //history
     routes // short for `routes: routes`
 })
 
@@ -114,5 +123,6 @@ const app = new Vue({
         printme() {
             window.print();
         }
-    }
+    },
+    store
 }); /*.$mount('#app')*/
