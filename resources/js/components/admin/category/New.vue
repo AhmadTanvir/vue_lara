@@ -30,7 +30,17 @@
 </template>
 <script>
 export default {
-    name: "New"
+    name: "New",
+    data() {
+        return {
+            form: new Form({
+                catname: '',
+            })
+        }
+    },
+    methods: {
+
+    }
 }
 
 </script>

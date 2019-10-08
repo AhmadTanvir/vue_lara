@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('auth/login');
+    return view('welcome');
 });
 
 Auth::routes();
@@ -22,6 +22,7 @@ Route::get('invoice', function() {
     return view('invoice');
 })->name('invoice');
 
-Route::get('post', 'PostController@all_post')->name('post');
+// Route::get('post', 'PostController@all_post')->name('post');
 
 Route::get('{path}', "HomeController@index")->where('path', '([A-z\d-\/_.]+)?');
+// Route::get('{path}', "HomeController@index")->where('path', '.*');
