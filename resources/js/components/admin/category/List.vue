@@ -27,6 +27,16 @@
                                         <table id="example2" class="table table-bordered table-hover dataTable text-center">
                                             <thead>
                                                 <tr>
+                                                    <th>
+                                                        <select v-model="select" name="" id="" @change="deleteSelected">
+                                                            <!-- onchange Event -->
+                                                            <option value="">Select</option>
+                                                            <option value="">Delete All</option>}
+                                                        </select> &nbsp;&nbsp;/&nbsp;&nbsp;
+                                                        <input style="margin-top: 10px" v-model="all_select" type="checkbox" @click.prevent="selectAll" name="">
+                                                        <span v-if="all_select==false">Check All</span>
+                                                        <span v-else>Uncheck All</span>
+                                                    </th>
                                                     <th>Sl. No.</th>
                                                     <th>Category Name</th>
                                                     <th>Created At</th>
@@ -35,12 +45,13 @@
                                             </thead>
                                             <tbody>
                                                 <tr v-for="(category,index) in getallCategory" :key="category.id">
+                                                    <td><input type="checkbox" v-model="categoryItem" :value="category.id" name=""></td>
                                                     <td>{{ index+1 }}</td>
                                                     <td>{{ category.catname }}</td>
-                                                    <td>10 Nov 2019</td>
+                                                    <td>{{ category.created_at | myDate }}</td>
                                                     <td>
-                                                        <a href="#" @click="" title="Edit" style="margin-right: 10px"><i class="fas fa-edit blue"></i></a><!-- editModal(user) --> |
-                                                        <a href="#" @click="" title="Delete" style="margin-left: 10px"><i class="fa fa-trash red"></i></a><!-- deleteUser(user.id) -->
+                                                        <router-link :to="`/edit-category/${category.id}`" title="Edit" style="margin-right: 10px"><i class="fas fa-edit blue"></i></router-link><!-- editModal(user) --> |
+                                                        <a href="#" @click.prevent="deleteCategory(category.id)" title="Delete" style="margin-left: 10px"><i class="fa fa-trash red"></i></a><!-- deleteUser(user.id) -->
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -61,6 +72,13 @@
 <script>
 export default {
     name: "List",
+    data() {
+        return {
+            categoryItem: [],
+            select: '',
+            all_select: false
+        }
+    },
     mounted() {
         this.$store.dispatch("allCategory")
     },
@@ -70,7 +88,40 @@ export default {
         }
     },
     methods: {
+        deleteCategory(id) {
+            axios.get('/category/' + id)
+                .then(() => {
+                    this.$store.dispatch("allCategory")
+                    toast.fire({
+                        type: 'success',
+                        title: 'Category Deleted successfully !!'
+                    });
+                })
+            // console.log(id)
+        },
+        deleteSelected() {
+            axios.get('/deletecategory/' + this.categoryItem)
+                .then(() => {
+                    this.categoryItem = []
+                    this.$store.dispatch("allCategory")
+                    toast.fire({
+                        type: 'success',
+                        title: 'Category Deleted successfully !!'
+                    });
+                })
+        },
+        selectAll() {
+            if (this.all_select == false) {
+                this.all_select = true
+                for (var category in this.getallCategory) {
+                    this.categoryItem.push(this.getallCategory[category].id)
+                }
+            } else {
+                this.all_select = false
+                this.categoryItem = []
+            }
 
+        }
     }
 }
 

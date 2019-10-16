@@ -10,6 +10,13 @@ require('./notfound');
 // import Vue from 'vue'
 window.Vue = require('vue');
 
+//support v-markdown-editor
+
+import 'v-markdown-editor/dist/index.css';
+import Editor from 'v-markdown-editor'
+// global register
+Vue.use(Editor);
+
 //support vuex
 import Vuex from 'vuex'
 Vue.use(Vuex)
@@ -17,9 +24,9 @@ import storeData from "./store/index"
 const store = new Vuex.Store(
     storeData
 )
-
+//Supports
 import Form from 'vform';
-import moment from 'moment';
+
 import { HasError, AlertError } from 'vform';
 
 import Gate from "./Gate";
@@ -56,17 +63,11 @@ Vue.use(Vueprogressbar, {
 import { routes } from './routes'; //if not give .js it'll work beacuse we'r using ES6
 
 const router = new VueRouter({ //must have to diclare this instans under routes path
-    mode: 'hash', //history
+    mode: 'hash', // history hash
     routes // short for `routes: routes`
 })
 
-Vue.filter('upText', function(text) {
-    return text.charAt(0).toUpperCase() + text.slice(1);
-});
-
-Vue.filter('myDate', function(created) {
-    return moment(created).format('MMMM Do YYYY'); /*h:mm:ss a*/
-});
+import { filter } from './filter'
 
 window.Fire = new Vue(); //Custom Event
 
@@ -95,6 +96,10 @@ Vue.component(
 Vue.component(
     'not-found',
     require('./components/admin/NotFound.vue').default
+);
+Vue.component(
+    'home-main',
+    require('./components/public/PublicMaster.vue').default
 );
 
 
@@ -126,3 +131,7 @@ const app = new Vue({
     },
     store
 }); /*.$mount('#app')*/
+
+// jQuery(document).ready(function() {
+//     jQuery('#postcontent').summernote();
+// });

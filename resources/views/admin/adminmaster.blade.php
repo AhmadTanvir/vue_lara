@@ -72,7 +72,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </li>
                         @can('isAdmin')
                         <li class="nav-item">
-                            <router-link to="/post" class="nav-link">
+                            <router-link to="/post-list" class="nav-link">
                                 <i class="nav-icon fas fa-sticky-note blue"></i>
                                 <p>
                                     Posts

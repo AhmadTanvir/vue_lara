@@ -11,6 +11,9 @@ try {
 
     require('bootstrap');
     require('admin-lte');
+    require('summernote/dist/summernote-bs4.js');
+    require('v-markdown-editor/dist/index.js');
+    require('@fortawesome/fontawesome-free');
 } catch (e) {}
 
 /**

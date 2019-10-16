@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
+
     public function add_category(Request $request)
     {
     	$this->validate($request, [
@@ -25,4 +30,32 @@ class CategoryController extends Controller
     		'categories' => $categories
     	], 200);
     }
+    public function delete_category($id){
+        // return $id;
+        $category = Category::findOrFail($id);
+        $category->delete();
+    }
+    public function edit_category($id){
+        $category = Category::find($id);
+    	return response()->json([
+            'category'=>$category
+        ], 200);
+    	
+    }
+    public function update_category(Request $request,$id)
+    {
+        // return $id;
+        $category = Category::find($id);
+        $category->catname = $request->catname;
+        $category->save();
+    }
+    public function selected_category($ids)
+    {
+        $all_id = explode(',', $ids);
+        foreach ($all_id as $id) {
+            $category = Category::find($id);
+            $category->delete();
+        }
+    }
+
 }
